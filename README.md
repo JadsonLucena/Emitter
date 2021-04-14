@@ -27,3 +27,43 @@ on(name: string, callback: (...args: any[]) => void): void // Alias for addEvent
 
 off(name: string, callback: (...args: any[]) => void): void // Alias for removeEventListener
 ```
+
+
+## How to use
+```javascript
+import Emitter from './Emitter.js';
+
+class Test extends Emitter {
+
+    constructor() {
+
+        super();
+
+        window.onmousemove = e => super._emit('mousemove', e.x, e.y);
+
+        window.onclick = e => super._emit('click', e.x, e.y);
+
+        window.onkeypress = e => super._emit('keypress', e.key);
+
+        setInterval(() => {
+
+            super._emit('setInterval', new Date().getTime());
+
+        }, 3000);
+
+    }
+
+}
+
+var test = new Test();
+
+test.on('mousemove', (x, y) => console.log('mousemove', x, y));
+test.on('click', (x, y) => console.log('click', x, y));
+test.on('keypress', key => console.log('keypress', key));
+
+let fun = timestamp => console.log('setInterval', timestamp);
+test.on('setInterval', fun);
+setTimeout(() => test.off('setInterval', fun), 9000);
+```
+
+> The super class Emitter is a module. Therefore, it must be imported and extended.
