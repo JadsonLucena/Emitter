@@ -1,0 +1,30 @@
+name: test
+
+on:
+  push:
+    paths:
+      - 'src/**'
+  pull_request:
+    paths:
+      - 'src/**'
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@main
+
+      - uses: actions/setup-node@main
+        with:
+          node-version: latest
+
+      - run: npm install
+      - run: npm test
+
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
