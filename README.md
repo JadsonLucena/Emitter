@@ -1,5 +1,5 @@
 # Emitter.mjs
-Using the observer pattern, define listeners in your class.
+Using the observer pattern, define listeners in your class
 
 
 ## Which is?
@@ -8,61 +8,114 @@ The Observer is a behavioral design pattern that allows you to define a signatur
 
 ## Interfaces
 ```javascript
-// Constructor
-Emitter()
+/**
+ * @constructor
+ * @throws {TypeError} Invalid maxListeners
+ */
+Emitter(maxListeners?: number = 10)
 ```
 
 ```javascript
-// Methods
-_emit(name: string, ...args: any[]): Promise<void>
+// Getters
+eventNames(): string[]
+maxListeners(): number
 ```
 
 ```javascript
-// Listeners
-addEventListener(name: string, callback: (...args: any[]) => void): void
-
-removeEventListener(name: string, callback: (...args: any[]) => void): void
-
-on(name: string, callback: (...args: any[]) => void): void // Alias for addEventListener
-
-off(name: string, callback: (...args: any[]) => void): void // Alias for removeEventListener
+// Setters
+/**
+ * This is a useful default that helps finding memory leaks. The value must be contained in [0,+∞) and can be set to Infinity (or 0) to indicate an unlimited number of listeners.
+ * @throws {TypeError} Invalid maxListeners
+ */
+maxListeners(maxListeners?: number = 10): void // https://nodejs.org/api/events.html#emittersetmaxlistenersn
 ```
 
+```javascript
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ */
+emit(eventName: string, ...args: any[]): Promise<boolean>
 
-## How to use
-```html
-<script type="module">
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ * @throws {Error} Memory leak detected
+ */
+addListener(eventName: string, callback: Function): Emitter
 
-import Emitter from 'https://cdn.jsdelivr.net/gh/JadsonLucena/Emitter.mjs@latest/src/Emitter.js';
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ */
+listenerCount(eventName: string, callback?: Function): number
 
-class Test extends Emitter {
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ */
+listeners(eventName: string): Function[]
 
-    constructor() {
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ */
+off(eventName: string, callback: Function): Emitter // Alias for removeListener
 
-        super();
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ * @throws {Error} Memory leak detected
+ */
+on(eventName: string, callback: Function): Emitter // Alias for addListener
 
-        window.onmousemove = e => super._emit('mousemove', e.x, e.y);
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ * @throws {Error} Memory leak detected
+ */
+once(eventName: string, callback: Function): Emitter
 
-        window.onclick = e => super._emit('click', e.x, e.y);
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ * @throws {Error} Memory leak detected
+ */
+prependListener(eventName: string, callback: Function): Emitter
 
-        window.onkeypress = e => super._emit('keypress', e.code, e.key);
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ * @throws {Error} Memory leak detected
+ */
+prependOnceListener(eventName: string, callback: Function): Emitter
 
-        setInterval(async () => await super._emit('setInterval', new Date().getTime()), 3000);
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ */
+removeAllListeners(eventName?: string): Emitter
 
-    }
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ * @throws {TypeError} Invalid listener
+ */
+removeListener(eventName: string, callback: Function): Emitter
 
-}
-
-var test = new Test();
-
-test.on('mousemove', (x, y) => console.log('mousemove', x, y));
-test.on('click', (x, y) => console.log('click', x, y));
-test.on('keypress', (code, key) => console.log('keypress', code, key));
-
-let fun = timestamp => console.log('setInterval', timestamp);
-test.on('setInterval', fun);
-setTimeout(() => test.off('setInterval', fun), 9000);
-</script>
+/**
+ * @method
+ * @throws {TypeError} Invalid eventName
+ */
+rawListeners(eventName: string): Function[]
 ```
 
-> The super class Emitter is a module. Therefore, it must be imported and extended.
+## Specifications
+We strive to maintain complete code coverage in tests. With that, we provide all the necessary use cases for a good understanding of how this module works. See: [test/Emitter.spec.js](https://github.com/JadsonLucena/Emitter.mjs/blob/main/test/Emitter.spec.js)
