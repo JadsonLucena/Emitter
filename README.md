@@ -1,4 +1,10 @@
 # Emitter.mjs
+[![CodeQL](https://github.com/JadsonLucena/Emitter.mjs/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/JadsonLucena/Emitter.mjs/actions/workflows/github-code-scanning/codeql)
+[![Test Pass](https://github.com/JadsonLucena/Emitter.mjs/workflows/test/badge.svg)](https://github.com/JadsonLucena/Emitter.mjs/actions?workflow=test)
+[![Coverage Status](https://coveralls.io/repos/github/JadsonLucena/Emitter.mjs/badge.svg)](https://coveralls.io/github/JadsonLucena/Emitter.mjs)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+
 Using the observer pattern, define listeners in your class
 
 
