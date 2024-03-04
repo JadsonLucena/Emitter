@@ -3,13 +3,10 @@
   "version": "2.0.0",
   "description": "Using the observer pattern, define listeners in your class",
   "main": "./src/Emitter.js",
-  "engines": {
-    "node": ">=12"
-  },
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage ./test",
-    "lint": "eslint ./src/** ./test/**"
+    "lint": "eslint --ext .js ."
   },
   "files": [
     "src/",
@@ -54,11 +51,17 @@
     }
   },
   "eslintConfig": {
-    "plugins": ["jest"],
+    "extends": [
+      "standard",
+      "eslint:recommended"
+    ],
     "env": {
+      "browser": true,
       "jest/globals": true
     },
-    "extends": "standard"
+    "plugins": [
+      "jest"
+    ]
   },
   "commitlint": {
     "extends": ["@commitlint/config-conventional"]
